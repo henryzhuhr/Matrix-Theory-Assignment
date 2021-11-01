@@ -7,16 +7,16 @@ A = [
     ];
 
 
-[L,U] = qr(A);
+[L,U] = lu(A);
 B=L*U;
 
 
-[L,U,P] = qr(A);
+[L,U,P] = lu(A);
 C=P'*L*U;
 
 
 b=[12;16;9;8;16]
-[L,U,P] = qr(A);
+[L,U,P] = lu(A);
 y = L\(P*b);
 x = U\y;
 

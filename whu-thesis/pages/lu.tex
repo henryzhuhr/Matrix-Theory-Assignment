@@ -1,7 +1,5 @@
 \chapter{LU分解}
-
-\section{LU分解的Matlab实现}
-用Matlab自带的函数\lstinline|rand()|创建一个大小为$5\times 5$的随机矩阵
+用 Matlab 自带的函数 \lstinline|rand()| 创建一个大小为 $5\times 5$ 的随机矩阵
 
 
 \begin{lstlisting}[language=Matlab]  
@@ -26,6 +24,21 @@ A =
     \end{bmatrix}
 \end{equation}
 
+随机产生列向量 $b$
+\begin{lstlisting}[language=Matlab]  
+>> b=rand(5,1)*20
+b =
+   12.9798
+   16.0066
+    9.0760
+    8.6478
+   16.5063
+\end{lstlisting}
+
+取 $b=[12,16,9,8,16]$
+
+\section{LU 分解的 Matlab 实现及结果验证}
+\subsection{矩阵的 LU 分解}
 设置矩阵$A$
 \begin{lstlisting}[language=Matlab]  
 >> A = [14, 8, 0, 4, 4; 4, 10, 18, 9, 9;
@@ -38,7 +51,11 @@ A =
      6    16    11    10     7
 \end{lstlisting}
 
-调用Matlab自带的函数\lstinline|lu()|进行矩阵分解
+调用 Matlab 自带的函数 \lstinline|lu()| 进行矩阵分解，\lstinline|[L,U] = lu(A)| 函数可以将满矩阵或稀疏矩阵 $A$ 分解为一个上三角矩阵 $U$ 和一个经过置换的下三角矩阵 $L$，使得
+\begin{equation}
+    A = LU
+\end{equation}
+
 \begin{lstlisting}[language=Matlab]  
 >> [L,U] = lu(A)
 L =
@@ -56,4 +73,103 @@ U =
           0         0         0         0    5.7024
 \end{lstlisting}
 
-代码可以在 {\url{https://github.com/whutug/whu-thesis}} 找到
+为了验证结果，我们将上三角矩阵 $U$ 和下三角矩阵 $L$ 相乘
+\begin{lstlisting}[language=Matlab]  
+>> B=L*U
+B =
+   14.0000    8.0000         0    4.0000    4.0000
+    4.0000   10.0000   18.0000    9.0000    9.0000
+    2.0000    1.0000   14.0000   19.0000   12.0000
+    5.0000    5.0000    9.0000   10.0000   13.0000
+    6.0000   16.0000   11.0000   10.0000    7.0000
+\end{lstlisting}
+得到的结果矩阵 $B$ 与待分解矩阵一致
+
+
+此外，该函数 \lstinline|[L,U,P] = lu(A)| 还可以返回一个置换矩阵 $P$，并满足 $A = P'LU$。在此语法中，$L$ 是单位下三角矩阵，$U$ 是上三角矩阵。
+\begin{lstlisting}[language=Matlab]  
+>> [L,U,P] = lu(A)
+L =
+    1.0000         0         0         0         0
+    0.4286    1.0000         0         0         0
+    0.1429   -0.0114    1.0000         0         0
+    0.2857    0.6136    0.7965    1.0000         0
+    0.3571    0.1705    0.5044    0.1823    1.0000
+
+U =
+   14.0000    8.0000         0    4.0000    4.0000
+         0   12.5714   11.0000    8.2857    5.2857
+         0         0   14.1250   18.5227   11.4886
+         0         0         0  -11.9799   -4.5366
+         0         0         0         0    5.7024
+
+P =
+     1     0     0     0     0
+     0     0     0     0     1
+     0     0     1     0     0
+     0     1     0     0     0
+     0     0     0     1     0
+\end{lstlisting}
+
+\begin{lstlisting}[language=Matlab]  
+>> C=P'*L*U
+C =
+   14.0000    8.0000         0    4.0000    4.0000
+    4.0000   10.0000   18.0000    9.0000    9.0000
+    2.0000    1.0000   14.0000   19.0000   12.0000
+    5.0000    5.0000    9.0000   10.0000   13.0000
+    6.0000   16.0000   11.0000   10.0000    7.0000
+\end{lstlisting}
+
+
+\subsection{用 LU 分解对线性方程组求解}
+假定需要求解的方程组为 $Ax=b$，即
+\begin{equation}
+    \begin{bmatrix}
+        14 & 8  & 0  & 4  & 4  \\
+        4  & 10 & 18 & 9  & 9  \\
+        2  & 1  & 14 & 19 & 12 \\
+        5  & 5  & 9  & 10 & 13 \\
+        6  & 16 & 11 & 10 & 7
+    \end{bmatrix}
+    x = 
+    \begin{bmatrix}
+        12 \\ 16 \\ 9 \\ 8 \\ 16
+    \end{bmatrix}
+\end{equation}
+
+求解上述方程组的过程如下
+\begin{lstlisting}
+>> b=[12;16;9;8;16];
+>> [L,U,P] = lu(A);
+>> y = L\(P*b)
+y =
+   12.0000
+   10.8571
+    7.4091
+    0.0080
+   -1.8752
+>> x = U\y
+x =
+    0.7046
+    0.3694
+    0.6296
+    0.1239
+   -0.3288
+\end{lstlisting}
+
+验证结果
+\begin{lstlisting}
+>> D=A*x
+D =
+   12.0000
+   16.0000
+    9.0000
+    8.0000
+   16.0000
+\end{lstlisting}
+
+
+\section{LU 分解的 C++ 实现及结果验证}
+\subsection{矩阵的 LU 分解}
+\subsection{用 LU 分解对线性方程组求解}

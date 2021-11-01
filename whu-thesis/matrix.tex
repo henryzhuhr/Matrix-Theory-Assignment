@@ -31,7 +31,7 @@
       },
     element            =
       {
-        % abstract       = {pages/abstract},
+        abstract       = {pages/abstract},
         bibliography   = {ref/refs},
         appendix       = {pages/appendix}
       }
@@ -55,7 +55,17 @@
 
 \AtBeginEnvironment{lstlisting}{\linespread{1}}%放在导言区即可全文统一使用
 
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=cyan,
+	filecolor=blue,      
+	urlcolor=red,
+	citecolor=green,
+}
+
 \begin{document}
 %%----------- 主体部分 ----------- %%
 \include{pages/lu}
+\include{pages/QR}
 \end{document}
