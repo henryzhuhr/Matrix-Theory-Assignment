@@ -155,12 +155,12 @@
     \tl_if_eq:NnT \g__whu_option_class_tl { academic }
       {
         \tl_const:Nn \c__whu_heading_tl
-          { \__whu_spread_with:nn { 硕士学位论文 } { \quad } }
+          { \__whu_spread_with:nn { 课程设计报告 } { \quad } }
       }
     \tl_if_eq:NnT \g__whu_option_class_tl { professional }
       {
         \tl_const:Nn \c__whu_heading_tl
-          { \__whu_spread_with:nn { 硕士专业学位论文 } { \enskip } }
+          { \__whu_spread_with:nn { 专业课课程设计报告 } { \enskip } }
       }
     \tl_set:Nn \bibname { \zihao { 4 } \textbf { 参考文献 } }
     \tl_set:Nn \bibliographytypesize { \zihao { 5 } }
@@ -1027,7 +1027,6 @@
   {
     \__whu_make_cover_master_doctor:
     \__whu_make_title_en:
-    \__whu_make_statesment_master_doctor:
     \__whu_make_authorization:
     \__whu_make_innovation:
     \__whu_make_contents:
@@ -1046,7 +1045,6 @@
   {
     \__whu_make_cover_master_doctor:
     \__whu_make_title_en:
-    \__whu_make_statesment_master_doctor:
 
     \pagestyle { plain }
     \pagenumbering { Roman }
@@ -1153,27 +1151,7 @@
     \pagestyle { empty }
     \__whu_set_baseline_skip:
     \begin { center }
-      \begin { minipage } [ c ] [ 2.5 cm ] { \textwidth }
-        \fangsong \zihao { 4 } \mode_leave_vertical:
-        \hbox_to_wd:nn { 2 cm } { \__whu_spread_with:nn { 分类号 } { \hfill } }
-        \uline { \hbox_to_wd:nn { 2 cm } { \hfill \g__whu_info_clc_tl \hfill } }
-        \hfill
-        \hbox_to_wd:nn { 2 cm } { \__whu_spread_with:nn { 密级 } { \hfill } }
-        \uline
-          {
-            \hbox_to_wd:nn { 2 cm }
-              { \hfill \g__whu_info_secret_level_tl \hfill }
-          } \par \skip_vertical:n { 1 em } \mode_leave_vertical:
-        \hbox_to_wd:nn { 2 cm } { \__whu_spread_with:nn { UDC } { \hfill } }
-        \uline { \hbox_to_wd:nn { 2 cm } { \hfill \g__whu_info_udc_tl \hfill } }
-        \hfill
-        \hbox_to_wd:nn { 2 cm } { \__whu_spread_with:nn { 编号 } { \hfill } }
-        \uline
-          {
-            \hbox_to_wd:nn { 2 cm }
-              { \hfill \g__whu_info_school_number_tl \hfill }
-          }
-      \end { minipage }
+
       \par \skip_vertical:n { 2 cm }
       \includegraphics [ width = 5.5 cm ] { data / whu.pdf }
       \par \skip_vertical:n { 1 cm }
@@ -1188,10 +1166,10 @@
         \begin { tabular } { l @ { ： \hbox:n {} } l }
         \tl_if_eq:NnTF \g__whu_option_type_tl { doctor }
           {
-            \__whu_spread_with:nn { 研究生姓名 } { \hfill } &
+            \__whu_spread_with:nn { 姓名 } { \hfill } &
             \__whu_spread_with:nn
               { \g__whu_info_author_tl } { \hfill } \\ [ 0.5 em ]
-            \__whu_spread_with:nn { 指导教师姓名、职称 } { \hfill } &
+            \__whu_spread_with:nn { 课程老师 } { \hfill } &
             \__whu_spread_with:nn
               { \clist_use:Nn \g__whu_info_advisor_clist { \quad } }
               { \hfill } \\ [ 0.5 em ]
@@ -1203,18 +1181,20 @@
             \__whu_spread_with:nn
               { \g__whu_info_direction_tl } { \hfill } \\ [ 0.5 em ]
           }
+
+          % CHANGE: 封面
           {
-            \__whu_spread_with:nn { 研究生姓名 } { \hfill } &
+            \__whu_spread_with:nn { 姓名 } { \hfill } &
             \g__whu_info_author_tl \\ [ 0.5 em ]
             \__whu_spread_with:nn { 学号 } { \hfill } &
             \g__whu_info_student_number_tl \\ [ 0.5 em ]
-            \__whu_spread_with:nn { 指导教师姓名、职称 } { \hfill } &
+            \__whu_spread_with:nn { 任课教师 } { \hfill } &
             \clist_use:Nn \g__whu_info_advisor_clist { \enskip } \\ [ 0.5 em ]
             \tl_if_eq:NnTF \g__whu_option_class_tl { academic }
               {
-                \__whu_spread_with:nn { 专业名称 } { \hfill } &
+                \__whu_spread_with:nn { 学院 } { \hfill } &
                 \g__whu_info_major_tl \\ [ 0.5 em ]
-                \__whu_spread_with:nn { 研究方向 } { \hfill } &
+                \__whu_spread_with:nn { 专业 } { \hfill } &
                 \g__whu_info_direction_tl \\ [ 0.5 em ]
               }
               {
@@ -1265,34 +1245,7 @@
     \__whu_new_chapter_page:
   }
 
-\cs_new_protected:Npn \__whu_make_statesment_master_doctor:
-  {
-    \__whu_new_chapter_page:
-    \mode_leave_vertical: \skip_vertical:n { 2 \baselineskip }
-    \noindent \hfil { \zihao { -2 } \heiti 论文原创性声明 }
-    \par \skip_vertical:n { 2 \baselineskip }
-    \group_begin:
-      \zihao { 4 } \skip_set:Nn \baselineskip { 28 pt }
-      \tl_if_eq:NnTF \g__whu_option_type_tl { doctor }
-        {
-          本人郑重声明：所呈交的学位论文，是本人在导师指导下，独立进行研究工作所
-          取得的研究成果。除文中已经标明引用的内容外，本论文不包含任何其他个人或
-          集体已发表或撰写的研究成果。对本文的研究做出贡献的个人和集体，均已在文
-          中以明确方式标明。本声明的法律结果由本人承担。
-        }
-        {
-          本人郑重声明：所呈交的学位论文，是本人在导师指导下，独立进行研究工作所
-          取得的研究成果。除文中已经标明引用的内容外，本论文不包含任何其他个人或
-          集体已经发表或撰写过的研究成果。对本文的研究做出贡献的个人和集体，均已
-          在文中以明确方式标明。本声明的法律结果由本人承担。
-        }
-      \par \skip_vertical:N \baselineskip
-      \hfill 学位论文作者（签名）： \hbox_to_wd:nn { 4 cm } {}
-      \par \skip_vertical:N \baselineskip
-        \hfill 年 \qquad 月 \qquad 日
-    \group_end:
-    \__whu_new_chapter_page:
-  }
+
 
 %%%% ---- 使用授权书 ---- %%%%
 \cs_new_protected:Npn \__whu_make_authorization:
@@ -1387,9 +1340,7 @@
         \file_input:V \g__whu_element_abstract_tl
 
         \skip_vertical:N \c__whu_baseline_skip \par
-        \__whu_put_keywords:nn
-          { \heiti \zihao { -4 } 关键词：\hbox:n {} }
-          { \clist_use:Nn \g__whu_info_keywords_clist { ； } }
+
       }
     % 英文摘要
     \tl_if_empty:NF \g__whu_element_abstract_en_tl

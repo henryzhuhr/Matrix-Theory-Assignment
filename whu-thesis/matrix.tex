@@ -1,0 +1,61 @@
+%% An Introduction to LaTeX Thesis Template of Wuhan University
+%%
+%% Created by WHUTUG
+
+% 用来设置附录中代码的样式
+
+
+
+\documentclass[type=master,oneside]{whu-thesis}
+\whusetup
+  {
+    info               =
+      {
+        title          = {矩阵分解作业},
+        title*         = {}, 
+        student-number = {2021202120085},
+        school         = {电子信息学院},
+        author         = {朱鹤然},
+        author*        = {Zhu Heran},
+        subject        = {学科},
+        major          = {电子信息学院},
+        advisor        = {王文伟},
+        direction      = {信息与通信工程},
+        % date           = {2021/5},
+        keywords       = {关键词 1 , 关键词 2 , 关键词 3 , 关键词 4 , 一个非常非常，非常非常长——的关键词 5},
+        keywords*      = {key word 1 , key word 2 , key word 3 , key word 4 , {and a very very, very very long key word---the key word 5}},
+      },
+    style              =
+      {
+        graphics-path  = {{figures/}{data/}},
+      },
+    element            =
+      {
+        % abstract       = {pages/abstract},
+        bibliography   = {ref/refs},
+        appendix       = {pages/appendix}
+      }
+  }
+
+\usepackage{listings}  % 排代码用的宏包
+\usepackage{color}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstset{
+    basicstyle=\footnotesize,
+    keywordstyle      =   \color{codepurple}\bfseries,% 关键字颜色
+    identifierstyle   =   \color{blue},
+    commentstyle      =   \color{codegreen}% 注释颜色
+    showstringspaces  =   false,% 不显示字符串内的空格
+    backgroundcolor   =   \color[rgb]{0.98,0.98,0.98},% 背景颜色
+    numbers           =   left,                               % 显示行号
+}
+
+\AtBeginEnvironment{lstlisting}{\linespread{1}}%放在导言区即可全文统一使用
+
+\begin{document}
+%%----------- 主体部分 ----------- %%
+\include{pages/lu}
+\end{document}
