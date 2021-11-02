@@ -11,19 +11,19 @@ int main()
 
     FullPivLU<Matrix<double, 5, 5>> lu(A);
 
-    // L
     Matrix<double, 5, 5> L                              = Matrix<double, 5, 5>::Identity();
     L.block<5, 5>(0, 0).triangularView<StrictlyLower>() = lu.matrixLU();
     cout << "matrix L:" << endl << L << endl << endl;
 
-    // U
     Matrix<double, 5, 5> U = lu.matrixLU().triangularView<Upper>();
     cout << "matrix U:" << endl << U << endl << endl;
 
-    // reconstruct A
     cout << "reconstruct the original matrix A:" << endl;
     auto reconstruct = lu.permutationP().inverse() * L * U * lu.permutationQ().inverse();
     cout << reconstruct << endl;
 
+
     return 0;
 }
+
+

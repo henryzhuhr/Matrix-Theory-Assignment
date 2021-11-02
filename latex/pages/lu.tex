@@ -1,5 +1,17 @@
 \chapter{LU分解}
 \section{LU 分解简介}
+$LU$ 分解能够将 $m\times m$ 的满矩阵或稀疏矩阵 $A$ 分解成为一个 $m\times m$ 上三角矩阵 $U$ 和一个 $m\times m$ 经过置换的下三角矩阵 $L$，满足
+\begin{equation}
+    A = LU
+    \label{LU-decomposition}
+\end{equation}
+
+另一种 $LU$ 分解的形式是将 $A$ 分解成为一个置换矩阵 $P$、 一个 $m\times m$ 上三角矩阵 $R$ 和一个 $m\times m$ 下单位三角矩阵 $Q$
+\begin{equation}
+    A = P^TLU
+    \label{QRP-decomposition}
+\end{equation}
+
 \section{LU 分解的 Matlab 实现及结果验证}
 用 Matlab 自带的函数 \lstinline|rand()| 创建一个大小为 $5\times 5$ 的随机矩阵
 
@@ -86,7 +98,7 @@ B =
 得到的结果矩阵 $B$ 与待分解矩阵一致
 
 
-此外，该函数 \lstinline|[L,U,P] = lu(A)| 还可以返回一个置换矩阵 $P$，并满足 $A = P'LU$。在此语法中，$L$ 是单位下三角矩阵，$U$ 是上三角矩阵。
+此外，该函数 \lstinline|[L,U,P] = lu(A)| 还可以返回一个置换矩阵 $P$，并满足 $A = P^TLU$。在此语法中，$L$ 是单位下三角矩阵，$U$ 是上三角矩阵。
 \begin{lstlisting}[language=Matlab]  
 >> [L,U,P] = lu(A)
 L =
@@ -241,4 +253,4 @@ reconstruct the original matrix A:
 5   5  9 10 13
 6  16 11 10  7
 \end{lstlisting}
-\section{利用 LU 分解求解线性方程组的 C++ 实现}
+% \section{利用 LU 分解求解线性方程组的 C++ 实现}

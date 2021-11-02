@@ -5,7 +5,9 @@ message("[INFO] BINARY DIR:" ${PROJECT_SOURCE_DIR}/bin)
 
 link_directories(${PROJECT_SOURCE_DIR}/bin)
 
-# lu
-add_executable(lu lu.cpp)
+
+add_executable(lu lu.cpp) # lu
+add_executable(qr qr.cpp) # lu
+add_executable(svd svd.cpp) # lu
 
 

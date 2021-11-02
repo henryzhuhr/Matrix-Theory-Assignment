@@ -145,4 +145,59 @@ null_basis =
 
 
 \section{SVD 分解的 C++ 实现及结果验证}
-\section{SVD 分解的 C++ 实现及应用}
+\begin{lstlisting}[language=Matlab]  
+#include <iostream>
+#include <Eigen/Dense>
+
+using namespace std;
+using namespace Eigen;
+int main()
+{
+    MatrixXf A(4, 5);
+    A << 2 , 19 , 18 ,  7 ,  0 ,
+        8 , 13 , 13 , 13 ,  5 ,
+        18 ,  0 , 15 ,  3 ,  0 ,
+        15 , 16 , 14 , 14 ,  1;
+    cout << "matrix A:" << endl << A << endl << endl;
+
+
+    JacobiSVD<MatrixXf> svd(A, ComputeThinU | ComputeThinV);
+    cout << "Its singular values are:" << endl << svd.singularValues() << endl<< endl;
+    cout << "matrix U: " << endl << svd.matrixU() << endl<< endl;
+    cout << "matrix V: " << endl << svd.matrixV() << endl<< endl;
+        
+    return 0;
+}
+\end{lstlisting}
+
+
+编译运行后
+\begin{lstlisting}[language=Matlab]  
+E:\Projects\Matrix-Theory-Assignment\cpp\bin>svd.exe
+matrix A:
+2  19 18  7  0
+8  13 13 13  5
+18  0 15  3  0
+15 16 14 14  1
+
+Its singular values are:
+48.4506
+  17.81
+9.14625
+4.20531
+
+matrix U:
+-0.510071 -0.530243 -0.673905 0.0672442
+-0.490559 -0.147009  0.411754 -0.753789
+-0.372042   0.83324 -0.387175 -0.131875
+-0.600636 0.0542391  0.475822  0.640226
+
+matrix V:
+ -0.426226    0.76223   0.231176   0.317171
+ -0.529999   -0.62425  0.0176852    0.40948
+  -0.60986   0.101204  -0.647655  -0.381384
+  -0.40191   -0.13272   0.670816  -0.180966
+-0.0630215 -0.0382261   0.277118  -0.743994
+\end{lstlisting}
+
+得到的奇异值为 $48.4506, 17.81, 9.14625, 4.20531$ ，与Matlab中结果一致

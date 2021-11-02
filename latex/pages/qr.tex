@@ -46,8 +46,6 @@ A =
 % 取 $b=[14,5,8]$
 
 
-\subsection{矩阵的 QR 分解}
-
 
 
 设置矩阵$A$
@@ -121,4 +119,47 @@ RES2 =
 
 
 \section{QR 分解的 C++ 实现及结果验证}
-\subsection{矩阵的 QR 分解}
+\begin{lstlisting}[language=C++]  
+#include <iostream>
+#include <Eigen/Dense>
+
+using namespace std;
+using namespace Eigen;
+int main()
+{
+    MatrixXf A(3, 5);
+    A << 16, 18,  5, 19, 19, 
+         18, 12, 10,  3,  9, 
+          2,  1, 19, 19, 16;
+    cout << "matrix A:" << endl << A << endl << endl;
+
+    HouseholderQR<MatrixXf> qr(A);
+    qr.compute(A);
+    MatrixXf R = qr.matrixQR().triangularView<Upper>();
+    MatrixXf Q = qr.householderQ();
+    cout << "matrix Q:" << endl << Q << endl << endl;
+    cout << "matrix R:" << endl << R << endl << endl;
+
+    return 0;
+}    
+\end{lstlisting}
+
+编译运行后
+\begin{lstlisting}[language=bash]  
+E:\Projects\Matrix-Theory-Assignment\cpp\bin>qr.exe
+matrix A:
+16 18  5 19 19
+18 12 10  3  9
+ 2  1 19 19 16
+
+matrix Q:
+ -0.662085   0.748083  0.0448963
+ -0.744845  -0.650238  -0.149654
+-0.0827606  -0.132525   0.987719
+
+matrix R:
+-24.1661 -20.9384 -12.3313 -16.3866 -20.6074
+       0  5.53012 -5.27993  9.74489  6.24104
+       0        0  17.4946  19.1707  15.3096
+\end{lstlisting}
+该结果与 Matlab 运行结果一致

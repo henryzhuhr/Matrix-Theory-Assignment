@@ -8,35 +8,36 @@
 
 \documentclass[type=master,oneside]{whu-thesis}
 \whusetup
-  {
-    info               =
-      {
-        title          = {矩阵分解},
-        title*         = {}, 
-        student-number = {2021202120085},
-        school         = {电子信息学院},
-        author         = {朱鹤然},
-        author*        = {Zhu Heran},
-        subject        = {学科},
-        major          = {电子信息学院},
-        advisor        = {王文伟},
-        direction      = {信息与通信工程},
-        % date           = {2021/5},
-        keywords       = {关键词 1 , 关键词 2 , 关键词 3 , 关键词 4 , 一个非常非常，非常非常长——的关键词 5},
-        keywords*      = {key word 1 , key word 2 , key word 3 , key word 4 , {and a very very, very very long key word---the key word 5}},
-      },
-    style              =
-      {
-        graphics-path  = {{figures/}{data/}},
-      },
-    element            =
-      {
-        abstract       = {pages/abstract},
-        bibliography   = {ref/refs},
-        % appendix       = {pages/appendix}
-      }
-  }
-
+{
+  info               =
+    {
+      title          = {矩阵分解},
+      title*         = {}, 
+      student-number = {2021202120085},
+      school         = {电子信息学院},
+      author         = {朱鹤然},
+      author*        = {Zhu Heran},
+      subject        = {学科},
+      major          = {电子信息学院},
+      advisor        = {王文伟},
+      direction      = {信息与通信工程},
+      % date           = {2021/5},
+      keywords       = {关键词 1 , 关键词 2 , 关键词 3 , 关键词 4 , 一个非常非常，非常非常长——的关键词 5},
+      keywords*      = {key word 1 , key word 2 , key word 3 , key word 4 , {and a very very, very very long key word---the key word 5}},
+    },
+  style              =
+    {
+      graphics-path  = {{figures/}{data/}},
+    },
+  element            =
+    {
+      abstract       = {pages/abstract},
+      % bibliography   = {ref/refs},
+      appendix       = {pages/appendix}
+    }
+}
+% 
+\usepackage{ctex}
 \usepackage{listings}  % 排代码用的宏包
 \usepackage{color}
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -49,12 +50,12 @@
     identifierstyle   =   \color{blue},
     commentstyle      =   \color{codegreen}% 注释颜色
     showstringspaces  =   false, % 不显示字符串内的空格
-    showstringspaces  =   false, %不显示字符串中的空格
+    showstringspaces  =   false, % 不显示字符串中的空格
+    breaklines        =   true,   % 自动换行，建议不要写太长的行
     backgroundcolor   =   \color[rgb]{0.98,0.98,0.98},% 背景颜色
     numbers           =   left,                       % 显示行号
 }
 
-\AtBeginEnvironment{lstlisting}{\linespread{1}}%放在导言区即可全文统一使用
 
 \usepackage{hyperref}
 \hypersetup{

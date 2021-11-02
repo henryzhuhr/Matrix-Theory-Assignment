@@ -12,5 +12,7 @@ make -j8
 
 cd ../bin
 lu.exe
+qr.exe
+svd.exe
 
 @REM rmdir /s /q "..\build"
