@@ -8,4 +8,4 @@
 - SVD   : [Matlab](matlab/svd_test.m)   | [C++](cpp/app/svd.cpp)
 
 
-报告为 LaTex 导出 pdf
+报告为 LaTex 导出 [pdf](https://github.com/HenryZhuHR/Matrix-Theory-Assignment/releases/tag/2021.11.2)
