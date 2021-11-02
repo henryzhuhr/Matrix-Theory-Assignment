@@ -1153,7 +1153,10 @@
     \begin { center }
 
       \par \skip_vertical:n { 2 cm }
-      \includegraphics [ width = 5.5 cm ] { data / whu.pdf }
+      
+      \includegraphics [ width = 5 cm ] { figures / whulogo.pdf } % CHANGE: 添加 logo 修改高度
+      \par \skip_vertical:n { 1 cm }
+      \includegraphics [ width = 5.5 cm ] { data / whu.pdf } 
       \par \skip_vertical:n { 1 cm }
       { \zihao { 2 } \bfseries \c__whu_heading_tl }
       \par \skip_vertical:n { 2.5 cm }
@@ -1326,12 +1329,12 @@
     % 中文摘要
     \tl_if_empty:NF \g__whu_element_abstract_tl
       {
-        \chapter * { 摘 \qquad 要 }
+        \chapter * { 说 \qquad 明 }% CHANGE: 摘要页处的"摘要"修改为"说明"
         \phantomsection
         \clist_map_inline:nn { doctor , master }
           {
             \tl_if_eq:NnT \g__whu_option_type_tl {##1}
-              { \addcontentsline { toc } { chapter } { 摘 \qquad 要 } }
+              { \addcontentsline { toc } { chapter } { 说 \qquad 明 } } % CHANGE: 目录处的"摘要"修改为"说明"
           }
         \tl_if_eq:NnT \g__whu_option_type_tl { bachelor }
           { \thispagestyle { empty } }

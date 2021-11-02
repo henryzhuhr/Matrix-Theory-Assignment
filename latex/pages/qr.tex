@@ -1,114 +1,124 @@
 \chapter{QR 分解}
-用 Matlab 自带的函数 \lstinline|rand()| 创建一个大小为 $5\times 5$ 的随机矩阵
+\section{QR 分解简介}
+$QR$ 分解能够将矩阵 $A$ 分解成为一个 $m\times n$ 上三角矩阵 $R$ 和一个 $m\times m$ 正交矩阵 $Q$
 
+\begin{equation}
+    A = QR
+    \label{QR-decomposition}
+\end{equation}
+
+另一种 $QR$ 分解的形式是引入 $n\times n$ 置换矩阵 $P$ 使得 $AP$ 分解成为一个 $m\times n$ 上三角矩阵 $R$ 和一个 $m\times m$ 正交矩阵 $Q$
+\begin{equation}
+    AP = QR
+    \label{QRP-decomposition}
+\end{equation}
+
+\section{QR 分解的 Matlab 实现及结果验证}
+用 Matlab 自带的函数 \lstinline|rand()| 创建一个大小为 $3\times 5$ 的随机矩阵
 
 \begin{lstlisting}[language=Matlab]  
->> A=rand(5,5)*20
+>> A=rand(3,5)*20
 A =
-     1.6694   16.0673   13.1372   19.6813    9.7938
-     2.6634    1.2094   12.5595    3.3434    6.7899
-     3.4678    7.9852    5.8397    2.1243   19.0326
-     7.8188   10.5375    8.6330    7.4482   18.4066
-    16.6276    8.3360    0.3097    3.9624    1.0535
+    16.2945   18.2675    5.5700   19.2978   19.1433
+    18.1158   12.6472   10.9376    3.1523    9.7075
+     2.5397    1.9508   19.1501   19.4119   16.0056
 \end{lstlisting}
 
 
 向下取整后作为项目测试用的矩阵$A$
 \begin{equation}
     A=\begin{bmatrix}
-        1 & 16  & 13  & 19  & 9  \\
-        2  & 1 & 12 & 3  & 6  \\
-        3  & 7  & 5 & 2 & 19 \\
-        7  & 10  & 8  & 7 & 18 \\
-        16  & 8 & 0 & 3 & 1
+        16&   18&    5&   19&   19\\
+        18&   12&   10&    3&    9\\
+        2&    1&   19&   19&   16
     \end{bmatrix}
 \end{equation}
 
-随机产生列向量 $b$
-\begin{lstlisting}[language=Matlab]  
->> b=rand(5,1)*20
-b =
-    14.7572
-    5.3824
-    8.4567
-    10.9574
-    18.8547
-\end{lstlisting}
+% 随机产生列向量 $b$
+% \begin{lstlisting}[language=Matlab]  
+% >> b=rand(5,1)*20
+% b =
+%     14.7572
+%     5.3824
+%     8.4567
+% \end{lstlisting}
 
-取 $b=[14,5,8,10,18]$
+% 取 $b=[14,5,8]$
 
-\section{QR 分解的 Matlab 实现及结果验证}
+
 \subsection{矩阵的 QR 分解}
 
 
 
 设置矩阵$A$
 \begin{lstlisting}[language=Matlab]  
->> A = [14, 8, 0, 4, 4; 4, 10, 18, 9, 9;
-        2, 1, 14, 19, 12; 5, 5, 9, 10, 13; 6, 16, 11, 10, 7]
-A =
-    14     8     0     4     4
-     4    10    18     9     9
-     2     1    14    19    12
-     5     5     9    10    13
-     6    16    11    10     7
+>> A = [16, 18, 5, 19, 19;18, 12, 10, 3, 9;2, 1, 19, 19, 16];
 \end{lstlisting}
 
-调用 Matlab 自带的函数 \lstinline|qr()| 进行矩阵分解，\lstinline|[Q,R] = qr(A)| 函数可以对 $m\times n$ 矩阵 $A$ 执行 $QR$ 分解，满足 $A = QR$。因子 $R$ 是 $m×n$ 上三角矩阵，因子 $Q$ 是 $m\times m$ 正交矩阵。
+调用 Matlab 自带的函数 \lstinline|qr()| 进行矩阵分解，\lstinline|[Q,R] = qr(A)| 函数可以对 $3\times 5$ 矩阵 $A$ 进行 $QR$ 分解，满足式\ref{QR-decomposition}
+
+\begin{lstlisting}[language=Matlab]  
+>> [Q, R] = qr(A)
+Q =
+   -0.6621    0.7481    0.0449
+   -0.7448   -0.6502   -0.1497
+   -0.0828   -0.1325    0.9877
+R =
+  -24.1661  -20.9384  -12.3313  -16.3866  -20.6074
+         0    5.5301   -5.2799    9.7449    6.2410
+         0         0   17.4946   19.1707   15.3096
+\end{lstlisting}
+
+为了验证结果，我们将 $3\times 3$ 的正交矩阵 $Q$ 和 $3\times 5$ 的上三角矩阵 $R$ 相乘得到结果矩阵 $RES$
+\begin{lstlisting}[language=Matlab]  
+>> RES = Q * R
+RES =
+        16.0000   18.0000    5.0000   19.0000   19.0000
+        18.0000   12.0000   10.0000    3.0000    9.0000
+         2.0000    1.0000   19.0000   19.0000   16.0000
+\end{lstlisting}
+得到的结果矩阵 $RES$ 与待分解矩阵 $A$ 一致
+
+
+此外，该函数 \lstinline|[Q,R,P] = qr(A)| 还会额外返回一个 $5\times 5$ 的置换矩阵 $P$，并满足 
 \begin{equation}
-    A = QR
+    AP = QR
 \end{equation}
-
 \begin{lstlisting}[language=Matlab]  
->> [Q,R] = qr(A)
+>> [Q, R, P] = qr(A)
+Q =
+   -0.7027   -0.2969   -0.6465
+   -0.1110   -0.8519    0.5118
+   -0.7027    0.4314    0.5657
+R =
+  -27.0370  -14.6466  -17.9754  -14.6836  -25.5945
+         0  -19.2218   -1.8064  -15.1357   -6.4056
+         0         0   12.6342   -4.9298    1.3739
+P =
+     0     1     0     0     0
+     0     0     0     1     0
+     0     0     1     0     0
+     1     0     0     0     0
+     0     0     0     0     1
 \end{lstlisting}
 
-为了验证结果，我们将上三角矩阵 $U$ 和下三角矩阵 $L$ 相乘
+为了验证结果，我们将
+$3\times 5$ 的待分解矩阵 $A$ 和 $5\times 5$ 的置换矩阵 $P$ 相乘得到结果矩阵 $RES1$，并且将
+$3\times 3$ 的正交矩阵 $Q$ 和 $3\times 5$ 的上三角矩阵 $R$ 相乘得到结果矩阵 $RES2$
 \begin{lstlisting}[language=Matlab]  
->> 
+>> RES1 = A * P
+RES2 = Q * R
+RES1 =
+    19    16     5    18    19
+     3    18    10    12     9
+    19     2    19     1    16
+RES2 =
+   19.0000   16.0000    5.0000   18.0000   19.0000
+    3.0000   18.0000   10.0000   12.0000    9.0000
+   19.0000    2.0000   19.0000    1.0000   16.0000
 \end{lstlisting}
-得到的结果矩阵 $B$ 与待分解矩阵一致
+矩阵 $RES1$ 和 矩阵 $RES2$ 的结果一致
 
 
-此外，该函数 \lstinline|[Q,R,P] = qr(A)| 还可以返回一个置换矩阵 $P$，并满足 $AP = QR$。在此语法中，$L$ 是单位下三角矩阵，$U$ 是上三角矩阵。
-\begin{lstlisting}[language=Matlab]  
->> [Q,R,P] = qr(A)
-\end{lstlisting}
-
-\begin{lstlisting}[language=Matlab]  
->> A*P = Q*R
-\end{lstlisting}
-
-
-\subsection{用 LU 分解对线性方程组求解}
-假定需要求解的方程组为 $Ax=b$，即
-\begin{equation}
-    \begin{bmatrix}
-        14 & 8  & 0  & 4  & 4  \\
-        4  & 10 & 18 & 9  & 9  \\
-        2  & 1  & 14 & 19 & 12 \\
-        5  & 5  & 9  & 10 & 13 \\
-        6  & 16 & 11 & 10 & 7
-    \end{bmatrix}
-    x = 
-    \begin{bmatrix}
-        12 \\ 16 \\ 9 \\ 8 \\ 16
-    \end{bmatrix}
-\end{equation}
-
-求解上述方程组的过程如下
-\begin{lstlisting}
->> b=[12;16;9;8;16];
->> [L,U,P] = lu(A);
->> y = L\(P*b)
-\end{lstlisting}
-
-验证结果
-\begin{lstlisting}
->> D=A*x
-\end{lstlisting}
-
-
-\section{LU 分解的 C++ 实现及结果验证}
-\subsection{矩阵的 LU 分解}
-\subsection{用 LU 分解对线性方程组求解}
+\section{QR 分解的 C++ 实现及结果验证}
+\subsection{矩阵的 QR 分解}

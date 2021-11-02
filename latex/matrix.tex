@@ -11,7 +11,7 @@
   {
     info               =
       {
-        title          = {矩阵分解作业},
+        title          = {矩阵分解},
         title*         = {}, 
         student-number = {2021202120085},
         school         = {电子信息学院},
@@ -33,7 +33,7 @@
       {
         abstract       = {pages/abstract},
         bibliography   = {ref/refs},
-        appendix       = {pages/appendix}
+        % appendix       = {pages/appendix}
       }
   }
 
@@ -48,9 +48,10 @@
     keywordstyle      =   \color{codepurple}\bfseries,% 关键字颜色
     identifierstyle   =   \color{blue},
     commentstyle      =   \color{codegreen}% 注释颜色
-    showstringspaces  =   false,% 不显示字符串内的空格
+    showstringspaces  =   false, % 不显示字符串内的空格
+    showstringspaces  =   false, %不显示字符串中的空格
     backgroundcolor   =   \color[rgb]{0.98,0.98,0.98},% 背景颜色
-    numbers           =   left,                               % 显示行号
+    numbers           =   left,                       % 显示行号
 }
 
 \AtBeginEnvironment{lstlisting}{\linespread{1}}%放在导言区即可全文统一使用
@@ -67,5 +68,6 @@
 \begin{document}
 %%----------- 主体部分 ----------- %%
 \include{pages/lu}
-\include{pages/QR}
+\include{pages/qr}
+\include{pages/svd}
 \end{document}

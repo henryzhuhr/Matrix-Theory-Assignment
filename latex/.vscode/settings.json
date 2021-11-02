@@ -74,6 +74,7 @@
       "name": "xelatex ➞ bibtex ➞ xelatex × 2",
       "tools": [
         "xelatex",
+        
         "bibtex",
         "xelatex",
         "xelatex"

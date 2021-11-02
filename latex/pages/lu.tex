@@ -1,4 +1,6 @@
 \chapter{LU分解}
+\section{LU 分解简介}
+\section{LU 分解的 Matlab 实现及结果验证}
 用 Matlab 自带的函数 \lstinline|rand()| 创建一个大小为 $5\times 5$ 的随机矩阵
 
 
@@ -37,8 +39,6 @@ b =
 
 取 $b=[12,16,9,8,16]$
 
-\section{LU 分解的 Matlab 实现及结果验证}
-\subsection{矩阵的 LU 分解}
 设置矩阵$A$
 \begin{lstlisting}[language=Matlab]  
 >> A = [14, 8, 0, 4, 4; 4, 10, 18, 9, 9;
@@ -122,7 +122,7 @@ C =
 \end{lstlisting}
 
 
-\subsection{用 LU 分解对线性方程组求解}
+\section{利用 LU 分解求解线性方程组的 Matlab 实现}
 假定需要求解的方程组为 $Ax=b$，即
 \begin{equation}
     \begin{bmatrix}
@@ -171,5 +171,74 @@ D =
 
 
 \section{LU 分解的 C++ 实现及结果验证}
-\subsection{矩阵的 LU 分解}
-\subsection{用 LU 分解对线性方程组求解}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <Eigen/Dense>
+
+using namespace std;
+using namespace Eigen;
+int main()
+{
+    Matrix<double, 5, 5> A;
+    A<<14,8,0,4,4,4,10,18,9,9,2,1,14,19,12,5,5,9,10,13,6,16,11,10,7;
+    cout << "matrix A:" << endl << A << endl << endl;
+
+    FullPivLU<Matrix<double, 5, 5>> lu(A);
+
+    Matrix<double, 5, 5> L = Matrix<double, 5, 5>::Identity();
+    L.block<5,5>(0,0).triangularView<StrictlyLower>()=lu.matrixLU();
+    cout << "matrix L:" << endl << L << endl << endl;
+
+    Matrix<double, 5, 5> U = lu.matrixLU().triangularView<Upper>();
+    cout << "matrix U:" << endl << U << endl << endl;
+
+    cout << "reconstruct the original matrix A:" << endl;
+    auto reconstruct = lu.permutationP().inverse() * L * U
+                    * lu.permutationQ().inverse();
+    cout << reconstruct << endl;
+    cout << () << endl;
+
+    return 0;
+}
+\end{lstlisting}
+
+编译代码
+\begin{lstlisting}[language=bash]
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j8
+cd ../bin
+\end{lstlisting}
+运行二进制文件，得到输出为
+\begin{lstlisting}[language=bash]
+E:\Projects\Matrix-Theory-Assignment\cpp\bin>lu.exe
+matrix A:
+14  8  0  4  4
+4  10 18  9  9
+2   1 14 19 12
+5   5  9 10 13
+6  16 11 10  7
+
+matrix L:
+           1           0           0           0           0
+    0.526316           1           0           0           0
+    0.210526    0.503401           1           0           0
+    0.473684    0.615646 0.000613497           1           0
+    0.526316    0.289116    0.226994    0.182325           1
+
+matrix U:
+       19        1        2       14       12
+        0  15.4737  4.94737  3.63158 0.684211
+        0        0  11.0884 -4.77551  1.12925
+        0        0        0  9.13558  2.89387
+        0        0        0        0  5.70244
+
+reconstruct the original matrix A:
+14  8  0  4  4
+4  10 18  9  9
+2   1 14 19 12
+5   5  9 10 13
+6  16 11 10  7
+\end{lstlisting}
+\section{利用 LU 分解求解线性方程组的 C++ 实现}

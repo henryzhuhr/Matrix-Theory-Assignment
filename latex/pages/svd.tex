@@ -1,0 +1,148 @@
+\chapter{SVD 分解}
+\section{SVD 分解简介}
+$SVD$ (Singular Value Decomposition) 分解
+usv
+能够将 $m\times n$ 矩阵 $A$ 
+分解成为 
+$m\times m$ 的酉矩阵 $U$ 、 
+$m\times n$ 的矩阵 $\Sigma$ 和 
+$n\times n$ 的酉矩阵 $V$ ，满足
+\begin{equation}
+    A=U\Sigma V^T
+    \label{SVD-decomposition}
+\end{equation}
+
+其中，酉矩阵 $U$ 和 $V$ 满足 $U^TU=I, V^TV=I$ ，$\Sigma$ 是一个对角矩阵，主对角线上的值就是奇异值
+
+
+\section{SVD 分解的 Matlab 实现及结果验证}
+
+用 Matlab 自带的函数 \lstinline|rand()| 创建一个大小为 $4\times 5$ 的随机矩阵
+
+\begin{lstlisting}[language=Matlab]  
+>> A=rand(4,5)*20
+A =
+    2.8377   19.1898   18.6799    7.8445    0.6367
+    8.4352   13.1148   13.5747   13.1096    5.5385
+    18.3147    0.7142   15.1548    3.4237    0.9234
+    15.8441   16.9826   14.8626   14.1209    1.9426
+\end{lstlisting}
+
+向下取整后作为项目测试用的矩阵 +$A$
+\begin{equation}
+    A=\begin{bmatrix}
+         2 & 19 & 18 &  7 &  0 \\
+         8 & 13 & 13 & 13 &  5 \\
+        18 &  0 & 15 &  3 &  0 \\
+        15 & 16 & 14 & 14 &  1
+    \end{bmatrix}
+\end{equation}
+
+
+设置矩阵$A$
+\begin{lstlisting}[language=Matlab]  
+>> A = [2, 19, 18, 7, 0; 8, 13, 13, 13, 5;
+       18, 0, 15, 3, 0; 15, 16, 14, 14, 1]
+\end{lstlisting}
+
+调用 Matlab 自带的函数 \lstinline|svd()| 进行矩阵分解，\lstinline|[U, S, V] = svd(A)| 函数可以对 $4\times 5$ 矩阵 $A$ 进行 $SVD$ 分解，满足式\ref{SVD-decomposition}
+
+\begin{lstlisting}[language=Matlab]  
+>> [U, S, V] = svd(A)
+U =
+   -0.5101   -0.5302   -0.6739    0.0672
+   -0.4906   -0.1470    0.4118   -0.7538
+   -0.3720    0.8332   -0.3872   -0.1319
+   -0.6006    0.0542    0.4758    0.6402
+S =
+   48.4506         0         0         0         0
+         0   17.8100         0         0         0
+         0         0    9.1462         0         0
+         0         0         0    4.2053         0
+V =
+   -0.4262    0.7622    0.2312    0.3172    0.2886
+   -0.5300   -0.6242    0.0177    0.4095    0.4018
+   -0.6099    0.1012   -0.6477   -0.3814   -0.2300
+   -0.4019   -0.1327    0.6708   -0.1810   -0.5815
+   -0.0630   -0.0382    0.2771   -0.7440    0.6035
+\end{lstlisting}
+
+分解之后的奇异值为 $48.4506,17.8100,9.1462,4.2053$
+
+首先验证 $U$、$V$ 是否是酉矩阵
+
+\begin{lstlisting}[language=Matlab]  
+>> RES=U*U'
+RES =
+    1.0000    0.0000    0.0000    0.0000
+    0.0000    1.0000    0.0000         0
+    0.0000    0.0000    1.0000    0.0000
+    0.0000         0    0.0000    1.0000
+\end{lstlisting}
+
+\begin{lstlisting}[language=Matlab]  
+>> RES=V*V'
+RES =
+    1.0000   -0.0000    0.0000    0.0000    0.0000
+   -0.0000    1.0000    0.0000   -0.0000    0.0000
+    0.0000    0.0000    1.0000    0.0000    0.0000
+    0.0000   -0.0000    0.0000    1.0000   -0.0000
+    0.0000    0.0000    0.0000   -0.0000    1.0000
+\end{lstlisting}
+
+求 $U^TU$ 和 $V^TV$ 之后，得到的结果均为单位阵 $I$ ，符合酉矩阵的定义。
+验证分解的结果，求 $RES=USV^T$:
+\begin{lstlisting}[language=Matlab]  
+>> RES=U*S*V'
+RES =
+    2.0000   19.0000   18.0000    7.0000    0.0000
+    8.0000   13.0000   13.0000   13.0000    5.0000
+   18.0000    0.0000   15.0000    3.0000    0.0000
+   15.0000   16.0000   14.0000   14.0000    1.0000
+\end{lstlisting}
+
+
+
+
+\section{SVD 分解的 Matlab 实现及应用}
+
+对矩阵进行SVD分解之后，可以根据奇异值分解结果来确定矩阵的秩、列空间和零空间。
+
+
+
+我们可以根据SVD分解的结果求解矩阵的秩（我们使用在上一部分中分解的数据进行）
+\begin{lstlisting}[language=Matlab]  
+>> s = diag(S)
+rank_A = nnz(s)
+s =
+   48.4506
+   17.8100
+    9.1462
+    4.2053
+rank_A =
+     4
+\end{lstlisting}
+
+
+我们可以根据 $SVD$ 分解的结果求解矩阵的列空间，使用 $U$ 中有对应的非零奇异值的列来计算 $A$ 的列空间的标准正交基。
+\begin{lstlisting}[language=Matlab]  
+>> column_basis = U(:,logical(s))
+column_basis =
+   -0.5101   -0.5302   -0.6739    0.0672
+   -0.4906   -0.1470    0.4118   -0.7538
+   -0.3720    0.8332   -0.3872   -0.1319
+   -0.6006    0.0542    0.4758    0.6402
+\end{lstlisting}
+
+我们可以根据 $SVD$ 分解的结果求解矩阵的零空间，使用 $V$ 中有对应的零奇异值的列来计算 $A$ 的零空间的标准正交基。
+\begin{lstlisting}[language=Matlab]  
+>> null_basis = V(:,~s)
+
+null_basis =
+
+  空的 5×0 double 矩阵
+\end{lstlisting}
+
+
+\section{SVD 分解的 C++ 实现及结果验证}
+\section{SVD 分解的 C++ 实现及应用}
