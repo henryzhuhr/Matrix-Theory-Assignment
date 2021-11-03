@@ -12,6 +12,13 @@ $LU$ 分解能够将 $m\times m$ 的满矩阵或稀疏矩阵 $A$ 分解成为一
     \label{QRP-decomposition}
 \end{equation}
 
+LU 分解需要满足如下条件：
+\begin{itemize}
+    \item 矩阵是方阵
+    \item 矩阵是可逆的，即矩阵是满秩矩阵，每一行都是独立向量
+    \item 消元过程中没有0主元出现，也就是消元过程中不能出现行交换的初等变换。
+\end{itemize}
+
 \section{LU 分解的 Matlab 实现及结果验证}
 用 Matlab 自带的函数 \lstinline|rand()| 创建一个大小为 $5\times 5$ 的随机矩阵
 
@@ -53,8 +60,13 @@ b =
 
 设置矩阵$A$
 \begin{lstlisting}[language=Matlab]  
->> A = [14, 8, 0, 4, 4; 4, 10, 18, 9, 9;
-        2, 1, 14, 19, 12; 5, 5, 9, 10, 13; 6, 16, 11, 10, 7]
+>> A = [
+    14, 8,  0,  4,  4;
+    4, 10, 18,  9,  9;
+    2,  1, 14, 19, 12; 
+    5,  5,  9, 10, 13; 
+    6, 16, 11, 10,  7
+    ]
 A =
     14     8     0     4     4
      4    10    18     9     9
@@ -63,7 +75,17 @@ A =
      6    16    11    10     7
 \end{lstlisting}
 
-调用 Matlab 自带的函数 \lstinline|lu()| 进行矩阵分解，\lstinline|[L,U] = lu(A)| 函数可以将满矩阵或稀疏矩阵 $A$ 分解为一个上三角矩阵 $U$ 和一个经过置换的下三角矩阵 $L$，使得
+在进行矩阵分解之前，我们需要验证该矩阵 $A$ 是否可逆
+\begin{lstlisting}[language=Matlab]  
+>> det(A)==0
+ans =
+  logical
+   0
+\end{lstlisting}
+输出为逻辑 $0$ ，则表示矩阵 $A$ 的行列式不为 $0$，矩阵是可逆的，满足 $LU$ 分解的基本条件，可以进行分解
+
+
+调用 Matlab 自带的函数 \lstinline|lu()| 进行矩阵分解，\lstinline|[L,U] = lu(A)| 函数可以将满秩矩阵 $A$ 分解为一个上三角矩阵 $U$ 和一个经过置换的下三角矩阵 $L$，使得
 \begin{equation}
     A = LU
 \end{equation}
@@ -87,8 +109,8 @@ U =
 
 为了验证结果，我们将上三角矩阵 $U$ 和下三角矩阵 $L$ 相乘
 \begin{lstlisting}[language=Matlab]  
->> B=L*U
-B =
+>> RES=L*U
+RES =
    14.0000    8.0000         0    4.0000    4.0000
     4.0000   10.0000   18.0000    9.0000    9.0000
     2.0000    1.0000   14.0000   19.0000   12.0000
@@ -123,9 +145,11 @@ P =
      0     0     0     1     0
 \end{lstlisting}
 
+
+验证分解的结果
 \begin{lstlisting}[language=Matlab]  
->> C=P'*L*U
-C =
+>> RES=P'*L*U
+RES =
    14.0000    8.0000         0    4.0000    4.0000
     4.0000   10.0000   18.0000    9.0000    9.0000
     2.0000    1.0000   14.0000   19.0000   12.0000
@@ -161,6 +185,7 @@ y =
     7.4091
     0.0080
    -1.8752
+
 >> x = U\y
 x =
     0.7046
@@ -172,8 +197,8 @@ x =
 
 验证结果
 \begin{lstlisting}
->> D=A*x
-D =
+>> RES=A*x
+RES =
    12.0000
    16.0000
     9.0000

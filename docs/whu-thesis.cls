@@ -237,18 +237,20 @@
       {
         \tl_gset_eq:NN \g__whu_head_odd_tl \g__whu_info_title_tl
         \tl_gremove_all:Nn \g__whu_head_odd_tl { \\ }
-        \tl_gset:Nn \g__whu_head_even_tl { 武汉大学硕士学位论文 }
+        \tl_gset:Nn \g__whu_head_even_tl { \g__whu_info_title_tl }
       }
 
     % 默认页面页眉页脚样式
+    % CHANGE: 页眉
     \clist_if_in:nVTF { doctor , master } \g__whu_option_type_tl
       {
         \fancypagestyle { plain }
           {
             \fancyhf {}
             \fancyfoot [ C ]   { \zihao { 5 } \thepage }
-            \fancyhead [ O C ] { \zihao { 5 } \g__whu_head_odd_tl }
-            \fancyhead [ E C ] { \zihao { 5 } \g__whu_head_even_tl }
+            \fancyhead [ O C ] { \zihao { 5 } \g__whu_info_title_tl}
+            \fancyhead [ E C ] { \zihao { 5 } \g__whu_info_title_tl}
+            \renewcommand\headrulewidth{0.5pt}
           }
       }
       {
@@ -1154,7 +1156,7 @@
 
       \par \skip_vertical:n { 2 cm }
       
-      \includegraphics [ width = 5 cm ] { figures / whulogo.pdf } % CHANGE: 添加 logo 修改高度
+      \includegraphics [ width = 5 cm ] { data / whulogo.pdf } % CHANGE: 添加 logo 修改高度
       \par \skip_vertical:n { 1 cm }
       \includegraphics [ width = 5.5 cm ] { data / whu.pdf } 
       \par \skip_vertical:n { 1 cm }

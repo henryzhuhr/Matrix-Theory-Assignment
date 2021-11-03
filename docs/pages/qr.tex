@@ -1,6 +1,6 @@
 \chapter{QR 分解}
 \section{QR 分解简介}
-$QR$ 分解能够将矩阵 $A$ 分解成为一个 $m\times n$ 上三角矩阵 $R$ 和一个 $m\times m$ 正交矩阵 $Q$
+$QR$ 分解能够将 $m\times n (m\geq n)$ 的矩阵 $A$ 分解成为一个 $m\times n$ 上三角矩阵 $R$ 和一个 $m\times m$ 正交矩阵 $Q$
 
 \begin{equation}
     A = QR
@@ -101,8 +101,8 @@ P =
 \end{lstlisting}
 
 为了验证结果，我们将
-$3\times 5$ 的待分解矩阵 $A$ 和 $5\times 5$ 的置换矩阵 $P$ 相乘得到结果矩阵 $RES1$，并且将
-$3\times 3$ 的正交矩阵 $Q$ 和 $3\times 5$ 的上三角矩阵 $R$ 相乘得到结果矩阵 $RES2$
+$3\times 5$ 的待分解矩阵 $A$ 和 $5\times 5$ 的置换矩阵 $P$ 相乘得到结果矩阵 $RES_1$，并且将
+$3\times 3$ 的正交矩阵 $Q$ 和 $3\times 5$ 的上三角矩阵 $R$ 相乘得到结果矩阵 $RES_2$
 \begin{lstlisting}[language=Matlab]  
 >> RES1 = A * P
 RES2 = Q * R
